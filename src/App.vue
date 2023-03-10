@@ -1,22 +1,56 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <AddForm v-if="!showLoading" v-on:addUser = "addUser"/>
+  <UserCard v-if="!showLoading" v-bind:allUsers="users" msg="my message"/>
+  <WaitSpinner v-if="showLoading"/>
+  <ModalForm />
+  <button v-if="!showLoading" v-on:click="handleToogle">Toggle</button>
+  <button >Click</button>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
+import WaitSpinner from './components/WaitSpinner.vue';
+import UserCard from './components/UserCard.vue';
+import AddForm from './components/AddForm.vue';
+import ModalForm from './components/ModalForm.vue';
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+   AddForm,UserCard,WaitSpinner,ModalForm
+  },
+  methods: {
+    addUser (newUser) {
+      console.log(newUser);
+      this.users.push(newUser);
+    },
+    handleToogle (){
+      // console.log("clicked");
+      this.showLoading = !this.showLoading
+    },
+    modalCard () {
+    }
+  },
+  data() {
+    return {
+      users : [],
+    showLoading : true,
+    }
+  },
+  mounted() {
+    console.log("app mounted");
+    this.showLoading = true;
+    setTimeout(() => {
+      console.log("after 2 secound");
+      this.showLoading = false;
+    }, 2000);
+    }
 }
 </script>
 
 <style>
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
